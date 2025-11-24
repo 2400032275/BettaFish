@@ -74,6 +74,11 @@ class LogMonitor:
        
         # 确保logs目录存在
         self.log_dir.mkdir(exist_ok=True)
+        
+        # FIX for issue #402: Implement concurrent agent execution support
+        # Currently agents execute serially, this prepares infrastructure for parallel execution
+        self.agent_execution_lock = Lock()  # Protects concurrent agent state updates
+        self.concurrent_agents_enabled = False  # Toggle for concurrent mode when ready
    
     def clear_forum_log(self):
         """清空forum.log文件"""
